@@ -1,38 +1,36 @@
 #include<all.h>
-bool near(const string& a, const string& b)
-{
-	int diff=0;
-	for(int i=0; i!=a.size(); ++i)
-		if(a[i]!=b[i])
-			if(++diff>1)
-				return false;
-	return true;
-}
 int ladderLength(string beginWord, string endWord, unordered_set<string>& wordList)
 {
 	if(beginWord==endWord)
 		return 1;
 	wordList.insert(endWord);
-	unordered_set<string> se{beginWord};
+	vector<string> layer{beginWord};
 	int distance=0;
-	while(!se.empty())
+	while(!layer.empty())
 	{
 		++distance;
-		unordered_set<string> us;
-		for(const auto& s: se)
+		vector<string> next_layer;
+		for(auto& s: layer)
 		{
 			if(s==endWord)
 				return distance;
-			for(auto it=wordList.begin(); it!=wordList.end();)
-				if(near(*it, s))
+			for(int i=0; i!=s.size(); ++i)
+			{
+				char old = s[i];
+				for(char c='a'; c<='z'; ++c)
 				{
-					us.insert(move(*it));
-					it=wordList.erase(it);
+					s[i]=c;
+					unordered_set<string>::const_iterator it;
+					if((it = wordList.find(s))!=wordList.end())
+					{
+						next_layer.push_back(s);
+						wordList.erase(it);
+					}
 				}
-				else
-					++it;
+				s[i]=old;
+			}
 		}
-		swap(se, us);
+		swap(layer, next_layer);
 	}
 	return 0;
 }
