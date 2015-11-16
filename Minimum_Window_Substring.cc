@@ -1,4 +1,4 @@
-#include<everything>
+#include<all.h>
 #include<string>
 using namespace std;
 class Solution {
