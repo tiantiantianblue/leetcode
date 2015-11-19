@@ -1,7 +1,7 @@
 #include<all.h>
 int main()
 {
-	const char* p="$234113123*z";
-	int i = stoi(p);
-	cout<<i<<endl;
+	vector<int> v{1,2,3};
+	for(auto i:v)
+		cout<<i<<endl;
 }
